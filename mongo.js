@@ -1,8 +1,45 @@
+// search for abnormal long name
+// { $expr: { $gt: [{ $strLenCP: "$name" }, 80] } }
+
+/* search for too short name
+{
+  $expr: {
+    $and: [
+      { $gt: [{ $strLenCP: "$name" }, 0] },
+      { $lt: [{ $strLenCP: "$name" }, 4] }
+    ]
+  }
+}
+*/
+
 // download ollama, install qwen3:8b first
 
 // node.js > 24.5.0
 // NODE_USE_ENV_PROXY=1 HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 NO_PROXY=localhost,127.0.0.1 node mongo.js
 
+
+
+
+
+
+
+
+
+
+// insert 26**3 empty placeholders
+// let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+// const docs =
+//     Array.from({ length: 26 ** 3 }).map((a, i) => {
+//         const firstLetter = letters[Math.floor(i / 26 ** 2)];
+//         const secondLetter = letters[Math.floor(i / 26) % 26];
+//         const thirdLetter = letters[i % 26];
+//         return {
+//             _id: firstLetter + secondLetter + thirdLetter,
+//             name: ''
+//         }
+//     })
+// const insertManyResult = await collection.insertMany(docs);
+// console.log(`Inserted ${insertManyResult.insertedCount} documents`);
 
 
 async function askDict(_id) {
