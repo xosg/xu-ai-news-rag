@@ -1,10 +1,11 @@
+const key = 'sk-134d0dcf191549dfb3fcf401cf778d26'
 async function callDeepSeekAPI() {
   try {
     const response = await fetch('https://api.deepseek.com/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer sk-134d0dcf191549dfb3fcf401cf778d26'
+        'Authorization': `Bearer ${key}`
       },
       body: JSON.stringify({
         model: "deepseek-chat",
