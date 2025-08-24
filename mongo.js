@@ -78,9 +78,10 @@ async function run() {
 
     const results = await collection.find({ name: '' })
         // .skip(500)
-        .limit(50).toArray();
+        // .limit(500)
+        .toArray();
 
-    console.log(results);
+    // console.log(results);
 
     for (let { _id } of results) {
         const phrase = await askDict(_id).catch(err => {
