@@ -1,3 +1,5 @@
+// download ollama, install qwen3:8b first
+
 // node.js > 24.5.0
 // NODE_USE_ENV_PROXY=1 HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 NO_PROXY=localhost,127.0.0.1 node mongo.js
 
@@ -54,7 +56,7 @@ async function askAI(_id) {
     result = result.slice(result.lastIndexOf('\n') + 1).trim();
     if (result.length > 100) throw result;
 
-    console.log(1111, `--------- By AI: ---------`, 1111);
+    console.log(1111111, `--------- By AI: ---------`, 1111111);
     return result;
 
 }
