@@ -1,4 +1,5 @@
-
+// node.js > 24.5.0
+// NODE_USE_ENV_PROXY=1 HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 NO_PROXY=localhost,127.0.0.1 node mongo.js
 
 
 
@@ -12,7 +13,8 @@ async function askDict(_id) {
     let data = await response.text()
     // data = data.slice(0, 1000)
     // console.log(data);
-    let match = data.match(/&#039;(.*?)&#039;/);
+    // let match = data.match(/&#039;(.*?)&#039;/);
+    let match = data.match(/<p class="desc">(.*?)<\/p>/s);
     if (!match) {
         throw ('Not Found by RegExp');
     }
@@ -75,8 +77,8 @@ async function run() {
     const collection = db.collection(collectionName);
 
     const results = await collection.find({ name: '' })
-        // .skip(900)
-        .limit(10).toArray();
+        // .skip(500)
+        .limit(50).toArray();
 
     console.log(results);
 
@@ -103,4 +105,4 @@ async function run() {
 
 run().catch(err => console.error(99999999, err));
 
-// askDict('IFM').then(console.log);
+// askDict('VIP').then(console.log);
