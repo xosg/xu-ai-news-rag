@@ -32,7 +32,8 @@ async function callQwenAPI(prompt) {
 }
 
 const question = `
-write an article on the benefits of regular exercise
+What does GZZ stands for? Output a most matching answer(a single full name without other context).
+If you really can't find at least one phrase, then guess a semantic one based on the acronym.
 `
 // Example usage
 callQwenAPI(question)
