@@ -1,7 +1,7 @@
 // A script downloading all the 3-letter abbreviations
 
 const firstLetter = 'C';
-const secondLetter = "A"
+const secondLetter = "H"
 let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 // letters = letters.slice(0, 3)
 let csv = '';
