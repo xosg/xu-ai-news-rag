@@ -52,3 +52,20 @@ News-AI-RAG:  Personalized  News  Intelligent  Knowledge  Base
 5. Non-functional  requirements  (performance,  security,  usability,  etc.)
 6. Release  standards  and  metrics
 7. Pending  items  and  future  plans
+
+## AI prompts
+
+Generating 100 sample(fake) Chinese news into /news.csv , with 3 columns:
+
+- news category: the category name in the examples below might now be apporprite, the total categories count shoule be around 20.
+- hot index: a number indicating the popularity, just a ramdom number as you like.
+- news title: length should be diverse and be in the range of 10 to 30 chars. You might want to add a few emojis to express sentiment.
+
+examples:
+
+```csv
+Category, hot index, title
+教育, 3984572, 年轻教师因开学产生焦虑
+教育, 10976262, 上海一小学今年仅招到22人
+职场, 98765677, 女孩上班不挣钱反欠公司13800元
+```
