@@ -76,6 +76,11 @@ async function serveStatic(req, res) {
 
 }
 
+
+
+
+
+
 const server = http.createServer(async (req, res) => {
 
   switch (req.url) {
@@ -85,8 +90,12 @@ const server = http.createServer(async (req, res) => {
       return;
 
     case '/info':
-      res.writeHead(200, { 'Content-Type': 'application/json' });
+      // res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(await getInfo(), null, 2));
+      return;
+
+    case '/get':
+      res.end(JSON.stringify(await get(), null, 2));
       return;
 
     default:
@@ -97,7 +106,11 @@ const server = http.createServer(async (req, res) => {
 
 });
 
-server.listen(3001, () => console.table({
-  'Native server': 'http://localhost:3001',
+
+const PORT = 3001
+const os = require('os')
+const ip = os.networkInterfaces()['WLAN'].find(a => a.family === 'IPv4').address
+server.listen(PORT, () => console.table({
+  'server': `http://${ip}:${PORT}`,
   'Swagger API': chroma + '/docs'
 }));
