@@ -2,7 +2,7 @@ import http from 'http';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
-import { MongoClient, ObjectId } from 'mongodb';
+// MongoDB removed: using only Chroma for knowledge base
 import { addEmbedding, queryEmbedding, createCollection } from './chroma-client.js';
 
 const JWT_SECRET = 'dev_secret';
@@ -32,14 +32,7 @@ function verifyJWT(token, secret) {
     return null;
   }
 }
-const MONGO_URL = 'mongodb://localhost:27017';
-const DB_NAME = 'news_ai_rag';
 
-let db;
-MongoClient.connect(MONGO_URL).then(client => {
-  db = client.db(DB_NAME);
-  console.log('MongoDB connected');
-});
 
 const DEMO_USER = { username: 'admin', password: 'admin' };
 
