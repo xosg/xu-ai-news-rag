@@ -185,16 +185,16 @@ input.addEventListener('change', async () => {
 
   const { documents, ids, metadatas, distances } = await results.json();
   console.log(documents[0], distances[0]);
-  return
+  // return
 
   const tbody = document.querySelector('#records')
   tbody.innerHTML = ''
-  for (let i = 0; i < documents.length; i++) {
+  for (let i = 0; i < documents[0].length; i++) {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${metadatas[i].category}</td>
-      <td>${ids[i]}</td>
-      <td>${documents[i]}</td>
+      <td>${metadatas[0][i].category}</td>
+      <td>${distances[0][i]}</td>
+      <td>${documents[0][i]}</td>
     `;
     tbody.appendChild(row);
   }
