@@ -23,9 +23,6 @@ collection = await collection.json()
 
 const { id, name, database } = collection
 
-// console.log(collection)
-
-
 
 
 let identity = await fetch(`${chroma}/api/v2/auth/identity`)
@@ -100,7 +97,7 @@ next.addEventListener('click', async () => {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${metadatas[i].category}</td>
-      <td>${ids[i]}</td>
+      <td>${~~(Math.random() * 999999) + 999}</td>
       <td>${documents[i]}</td>
     `;
     tbody.appendChild(row);
@@ -122,37 +119,20 @@ document.querySelector('#import').addEventListener('click', async () => {
   csv = await csv.text()
   csv = csv.split('\n').map(line => line.split(','))
 
-  csv = csv.slice(0, 5)
+  // csv = csv.slice(0, 5)
 
 
-  let bulk = 2;
+  let bulk = 12;
   for (let i = 0; i < csv.length; i += bulk) {
 
-    // const [category, hot, prompt] = line
+
     let batch = csv.slice(i, i + bulk)
-    let prompts = batch.map((line) => line[2])
-    let ids = batch.map(line => line[1])
+    let prompts = batch.map((line) => line[1])
+    // let ids = batch.map(line => line[1])
     let metadatas = batch.map(line => ({ category: line[0] }))
 
-    
-    // continue
 
     let vectors = await embed(prompts)
-
-    // let vector = await fetch(`${ollama}/api/embeddings`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     model: MiniML,
-    //     prompt
-    //   }),
-    //   headers: {
-    //     'content-type': 'application/json'
-    //   }
-    // })
-    // vector = await vector.json()
-    // vector = vector.embedding
-
-    // continue;
 
     // upsert on id
     let add = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/${id}/add`, {
@@ -160,7 +140,7 @@ document.querySelector('#import').addEventListener('click', async () => {
       body: JSON.stringify({
         embeddings: vectors,
         documents: prompts,
-        ids,
+        ids: batch.map((a, index) => String(index + i)),
         metadatas
       }),
       headers: {
@@ -180,33 +160,33 @@ document.querySelector('#import').addEventListener('click', async () => {
 })
 
 
+
+
+
 const input = document.querySelector('#search');
 input.addEventListener('change', async () => {
   const prompt = input.value;
+  // console.log(111,prompt)
+  let [vector] = await embed([prompt]);
+  // console.log(vector.slice(0, 5))
 
-  let vector = await fetch(`${ollama}/api/embeddings`, {
-    method: 'POST',
-    body: JSON.stringify({
-      model: MiniML,
-      prompt
-    }),
-    headers: {
-      'content-type': 'application/json'
-    }
-  })
-
-  vector = await vector.json()
-  vector = vector.embedding
 
   let results = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/${id}/query`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ query_embeddings: [vector], n_results: 5, include: ['documents', 'metadatas', 'uris', 'distances'] })
+    body: JSON.stringify({
+      query_embeddings: [vector],
+      n_results: 5,
+      include: ['documents', 'metadatas', 'uris', 'distances']
+    })
   })
 
-  const { documents, ids, metadatas } = await results.json();
+  const { documents, ids, metadatas, distances } = await results.json();
+  console.log(documents[0], distances[0]);
+  return
+
   const tbody = document.querySelector('#records')
   tbody.innerHTML = ''
   for (let i = 0; i < documents.length; i++) {
@@ -240,4 +220,16 @@ async function embed(input) {
 }
 
 
-// console.log(111, await embed("你好吗？"))
+
+
+document.querySelector('#delete').addEventListener('click', async () => {
+  let del = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/x.lab`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+
+  })
+  if (del.ok) alert('Collection deleted successfully')
+  else alert(await del.text())
+})

@@ -55,11 +55,14 @@ News-AI-RAG:  Personalized  News  Intelligent  Knowledge  Base
 
 ## AI prompts
 
-Generating 100 sample(fake) Chinese news into /news.csv , with 3 columns:
+Generating more sample(fake) Chinese news into /news.csv , with 2 columns:
 
-- news category: the category name in the examples below might now be apporprite, the total categories count shoule be around 20.
-- hot index: a number indicating the popularity, just a ramdom number as you like.
-- news title: length should be diverse and be in the range of 10 to 30 chars. You might want to add a few emojis to express sentiment.
+- news category: the category name of this news in 2~3 chars, the total categories count shoule be around 20.
+- news title:
+  - length should be diverse and be in the range of 15 to 40 chars.
+  - topic should cover various aspects of the society.
+  - You might want to insert a few emojis or Emoticon Symbols(text emoji) to express sentiment.
+  - the punctuation should also be diverse.
 
 examples:
 
