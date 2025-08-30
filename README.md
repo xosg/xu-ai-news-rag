@@ -1,24 +1,38 @@
-# News-AI-RAG
+# 新闻 AI 引擎
 
-Personalized News Intelligent Knowledge Base
+## Ollama 安装
 
-## Project Structure
-- `backend/`: Node.js backend (API, DB, vector DB, LLM integration)
-- `frontend/`: Native JavaScript frontend (UI, login, search, management)
+```shell
 
-## Features
-- News crawling (RSS, web, proxy)
-- Local knowledge base with FAISS & MongoDB
-- LLM integration (Ollama/qwen3:8b)
-- User login (JWT)
-- Email notifications
-- Knowledge base management & semantic search
+# 下载ollama，或者从官网: https://ollama.com/download/windows
+winget install Ollama.Ollama
 
-## Setup
-See detailed docs in `/docs` and `/requirement.md` for requirements.
+# 嵌入式模型
+ollama pull bge-m3
 
----
+# LLM 大模型
+ollama pull qwen3:8b
 
-## Quick Start
-1. Install Node.js, MongoDB, Python (for FAISS)
-2. See backend/ and frontend/ for setup instructions
+# 设置环境变量，然后使用nVidia显卡启动
+docker run -d --gpus=all -e OLLAMA_ORIGINS="*" -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama 
+
+```
+
+## Chroma安装
+
+```shell
+# Windows64需要docker启动
+
+# 设置环境变量，然后启动
+docker run --env=CHROMA_CORS_ALLOW_ORIGINS=["*"] -d ghcr.io/chroma-core/chroma:latest -p 8000:8000 -v chroma_data:/chroma/chroma --name chroma chromadb/chroma
+
+```
+
+## 启动
+
+```shell
+# 随便启动一个http服务器，托管./frontend里面的文件
+node serve.js
+
+
+```

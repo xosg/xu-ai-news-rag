@@ -7,6 +7,77 @@
     <title>后台管理</title>
 </head>
 
+<style>
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #f7f7f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    nav {
+        background: #222;
+        padding: 12px 24px;
+    }
+
+    nav a {
+        color: #fff;
+        text-decoration: none;
+        margin-right: 18px;
+        font-size: 16px;
+    }
+
+    nav a:hover {
+        color: #4fc3f7;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin: 32px auto 0 auto;
+        background: #fff;
+        box-shadow: 0 2px 8px #00000057;
+        min-width: 420px;
+        max-width: 90vw;
+    }
+
+    th,
+    td {
+        padding: 0.6rem 1.4rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    td:first-child {
+        text-align: right;
+        border-right: 1px solid #cacaca;
+        font-family: serif;
+    }
+
+    th {
+        background: #f0f0f0;
+        font-weight: 600;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    button {
+        background: #4fc3f7;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 6px 18px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    button:hover {
+        background: #0288d1;
+    }
+</style>
+</head>
+
 <body>
     <nav>
         <a href="./index.html">📋首页</a>
@@ -15,17 +86,14 @@
         <a href="./admin.html">⚙️系统</a>
     </nav>
 
-    <hr>
-
-
 
     <table>
-        <thead>
+        <!-- <thead>
             <tr>
                 <th>参数</th>
                 <th>内容</th>
             </tr>
-        </thead>
+        </thead> -->
         <tbody>
         </tbody>
     </table>
@@ -55,7 +123,7 @@
             <tr>   <td>Vector维度</td> <td>${dimension}</td>  </tr>
             <tr>   <td>Rebuild数据库</td> <td>${initDB}</td>  </tr>
             <tr>   <td>Web</td> <td>${location.host}</td>  </tr>
-            <tr>   <td>CSV源数据</td> <td><a href="./news.csv">news.csv</a></td>  </tr>
+            <tr>   <td>CSV源数据</td> <td><a href="./news.csv">./news.csv</a></td>  </tr>
             <tr>   <td>总条目</td> <td>${rowsCount} 行</td>  </tr>
             <tr>   <td>批量执行</td> <td>${bulk} 行</td>  </tr>
         `
