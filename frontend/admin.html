@@ -9,10 +9,13 @@
 
 <body>
     <nav>
-        <a href="./index.html">首页</a>
-        <a href="./semantic.html">语义搜索</a>
-        <a href="./admin.html">系统</a>
+        <a href="./index.html">📋首页</a>
+        <a href="./semantic.html">🔍语义搜索</a>
+        <!-- <a href="./LLM.html">内容分析</a> -->
+        <a href="./admin.html">⚙️系统</a>
     </nav>
+
+    <hr>
 
 
 
@@ -34,6 +37,9 @@
         console.log(info)
         Object.assign(window, info)
 
+        // embedding in batch
+        const bulk = 12;
+
 
         const swagger = `${chroma}/docs`;
         const initDB = `<button onclick="init_DB()">执行</button>`;
@@ -46,11 +52,12 @@
             <tr>   <td>Database</td> <td>${database}</td>  </tr>
             <tr>   <td>数据表</td> <td>${name}</td>  </tr>
             <tr>   <td>数据表ID</td> <td>${id}</td>  </tr>
-            <tr>   <td>总条目</td> <td>${rowsCount}</td>  </tr>
             <tr>   <td>Vector维度</td> <td>${dimension}</td>  </tr>
             <tr>   <td>Rebuild数据库</td> <td>${initDB}</td>  </tr>
             <tr>   <td>Web</td> <td>${location.host}</td>  </tr>
             <tr>   <td>CSV源数据</td> <td><a href="./news.csv">news.csv</a></td>  </tr>
+            <tr>   <td>总条目</td> <td>${rowsCount} 行</td>  </tr>
+            <tr>   <td>批量执行</td> <td>${bulk} 行</td>  </tr>
         `
 
 
@@ -76,7 +83,6 @@
             // csv = csv.slice(0, 5)
 
 
-            let bulk = 12;
             for (let i = 0; i < csv.length; i += bulk) {
 
 

@@ -71,15 +71,7 @@ localStorage.setItem('info', JSON.stringify(info))
 
 
 
-
-
-
-document.querySelector('#swagger').href = chroma + '/docs/';
-
-
-
-
-let limit = 12;
+let limit = 13;
 let offset = 0;
 
 const next = document.querySelector('#next')
@@ -101,10 +93,12 @@ next.addEventListener('click', async () => {
   for (let i = 0; i < limit; i++) {
     const row = document.createElement('tr');
     const type = metadatas[i].category
+    let title = documents[i]
+    title = `<a href="./LLM.html#${title}">${title}</a>`
     row.innerHTML = `
       <td><a href="./semantic.html#${type}">${type}</a></td>
       <td>${~~(Math.random() * 999999) + 999}</td>
-      <td>${documents[i]}</td>
+      <td>${title}</td>
     `;
     tbody.appendChild(row);
   }

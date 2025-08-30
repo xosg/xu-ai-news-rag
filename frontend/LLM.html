@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻分析</title>
+</head>
+
+<body>
+    <nav>
+        <a href="./index.html">📋首页</a>
+        <a href="./semantic.html">🔍语义搜索</a>
+        <a href="#">🧠内容分析</a>
+        <a href="./admin.html">⚙️系统</a>
+    </nav>
+
+    <h1></h1>
+    <pre style="text-wrap: auto;  font-family: cursive;  font-size: 1.4rem;">
+    </pre>
+
+    <script type="module">
+
+        let pre = document.querySelector('pre')
+        const info = JSON.parse(localStorage.getItem('info'))
+        console.log(info)
+        Object.assign(window, info)
+
+
+
+        const title = decodeURIComponent(location.hash.slice(1))
+        document.title = title
+        document.querySelector('h1').textContent = title
+
+        const prompt =
+            `根据以下内容，生成一篇文章:
+            ${title}`
+        const url = `${ollama}/api/generate`;
+        const data = {
+            model: 'qwen3:8b', // Ensure this matches your model name
+            prompt,
+            stream: true, // Set to `true` for real-time streaming
+            // Optional parameters (e.g., temperature, max_tokens):
+            // temperature: 0.7,
+            // max_tokens: 100
+        };
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            alert(`HTTP error! Status: ${response.status}`);
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            const { response } =
+                JSON.parse(decoder.decode(value, { stream: true }));
+            pre.innerHTML += response
+
+        }
+
+
+        // let result = (await response.json()).response;
+
+        // result = result.slice(result.lastIndexOf('\n') + 1).trim();
+
+
+        ;
+
+
+    </script>
+</body>
+
+</html>
