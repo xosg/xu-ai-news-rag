@@ -19,6 +19,7 @@ const server = http.createServer(async (req, res) => {
     '.png': 'image/png',
     '.jpg': 'image/jpeg',
     '.ico': 'image/x-icon',
+    '.csv': 'text/plain',
   }[ext] || 'application/octet-stream';
   res.writeHead(200, { 'Content-Type': mime });
   res.end(data);

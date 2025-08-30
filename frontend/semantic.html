@@ -9,6 +9,11 @@
 
 <body>
 
+    <nav>
+        <a href="./index.html">首页</a>
+        <a href="./semantic.html">语义搜索</a>
+        <a href="./admin.html">系统</a>
+    </nav>
 
     <input type="text" id="search" placeholder="语义搜索">
 
@@ -16,6 +21,7 @@
     <table>
         <thead>
             <tr>
+                <th></th>
                 <th>分类</th>
                 <th>新闻内容</th>
                 <th>余弦距离</th>
@@ -75,7 +81,7 @@
                 },
                 body: JSON.stringify({
                     query_embeddings: [vector],
-                    n_results: 5,
+                    n_results: 8,
                     include: ['documents', 'metadatas', 'uris', 'distances']
                 })
             })
@@ -88,8 +94,10 @@
             tbody.innerHTML = ''
             for (let i = 0; i < documents[0].length; i++) {
                 const row = document.createElement('tr');
+                const type = metadatas[0][i].category;
                 row.innerHTML = `
-                    <td>${metadatas[0][i].category}</td>
+                    <td>${i + 1}</td>
+                    <td><a target="_blank" href="#${type}">${type}</a></td>
                     <td>${documents[0][i]}</td>
                     <td>${distances[0][i]}</td>
                 `;

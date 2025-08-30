@@ -2,6 +2,7 @@ const chroma = 'http://localhost:8000'
 const ollama = 'http://localhost:11434'
 
 const MiniML = 'bge-m3'
+const LLM = 'qwen3:8b'
 
 // upsert a collection
 // Expected a name containing 3-512 characters from [a-zA-Z0-9._-], starting and ending with a character in [a-zA-Z0-9].
@@ -61,7 +62,8 @@ const info = {
   chroma,
   ollama,
   rowsCount,
-  MiniML
+  MiniML,
+  LLM
 }
 console.log(info)
 
@@ -115,60 +117,6 @@ next.click();
 
 
 
-
-
-document.querySelector('#import').addEventListener('click', async () => {
-
-  let csv = await fetch('news.csv')
-  csv = await csv.text()
-  csv = csv.split('\n').map(line => line.split(','))
-
-  // csv = csv.slice(0, 5)
-
-
-  let bulk = 12;
-  for (let i = 0; i < csv.length; i += bulk) {
-
-
-    let batch = csv.slice(i, i + bulk)
-    let prompts = batch.map((line) => line[1])
-    // let ids = batch.map(line => line[1])
-    let metadatas = batch.map(line => ({ category: line[0] }))
-
-
-    let vectors = await embed(prompts)
-
-    // upsert on id
-    let add = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/${id}/add`, {
-      method: 'POST',
-      body: JSON.stringify({
-        embeddings: vectors,
-        documents: prompts,
-        ids: batch.map((a, index) => String(index + i)),
-        metadatas
-      }),
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-
-    // add = await add.json()  // {}
-
-    batch.forEach(line => {
-      console.log(...line);
-    });
-
-  }
-
-  console.log(csv.length + ' records upserted')
-})
-
-
-
-
-
-
-
 async function embed(input) {
   let vector = await fetch(`${ollama}/api/embed`, {
     method: 'POST',
@@ -189,15 +137,3 @@ async function embed(input) {
 
 
 
-
-document.querySelector('#delete').addEventListener('click', async () => {
-  let del = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/x.lab`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-
-  })
-  if (del.ok) alert('Collection deleted successfully')
-  else alert(await del.text())
-})
