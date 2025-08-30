@@ -4,20 +4,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="base.js" type="module"></script>
+
     <title>语义检索</title>
 
     <style>
-        td:last-child {
-            width: 200px;
-            background: rgb(90, 90, 90);
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f7f7f9;
+            margin: 0;
+            padding: 0;
         }
 
-        td span {
+        nav {
+            background: #222;
+            padding: 12px 24px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 18px;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #4fc3f7;
+        }
+
+        input[type="text"] {
+            margin: 32px auto 24px auto;
+            padding: 10px 16px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 23vw;
+            box-sizing: border-box;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 0 auto 32px auto;
+            background: #fff;
+            box-shadow: 0 2px 8px #0001;
+            min-width: 600px;
+            max-width: 95vw;
+        }
+
+        th,
+        td {
+            padding: 1.2vh 1.7vw;
+            text-align: left;
+            max-width: 8cm;
+        }
+
+        th {
+            background: #f0f0f0;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td:last-child {
+            width: 13vw;
+        }
+
+        td:last-child div {
+            background: darkred;
+            padding: 0px 3px;
+        }
+
+        td:last-child span {
             background-color: lightblue;
             display: inline-block;
-            height: 1rem;
+            height: 0.85rem;
         }
     </style>
+
+
 </head>
 
 <body>
@@ -29,8 +97,10 @@
         <a href="./admin.html">⚙️系统</a>
     </nav>
 
-    <input type="text" id="search" placeholder="语义搜索">
-
+    <div style="    text-align: center;">
+        <input type="text" id="search" placeholder="语义搜索">
+        <button onclick="search()">🔍搜索</button>
+    </div>
 
     <table>
         <thead>
@@ -54,43 +124,17 @@
 
 
     <script type="module">
-        const info = JSON.parse(localStorage.getItem('info'))
-        console.log(info)
-        Object.assign(window, info)
-
-
-
-
-
-        async function embed(input) {
-            let vector = await fetch(`${ollama}/api/embed`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    model: MiniML,
-                    // input: text or list of text to generate embeddings for
-                    input
-                }),
-                headers: {
-                    'content-type': 'application/json'
-                }
-            })
-
-            vector = await vector.json()
-            return vector.embeddings;
-
-        }
 
 
         const input = document.querySelector('input')
-
-        input.onchange = async () => {
+        window.search = async function () {
             const prompt = input.value;
-            // console.log(111,prompt)
+            document.title = prompt;
             let [vector] = await embed([prompt]);
             // console.log(vector.slice(0, 5))
 
 
-            let results = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/${id}/query`, {
+            let results = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/${coll.id}/query`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -115,10 +159,10 @@
                 const title = documents[0][i];
                 row.innerHTML = `
                     <td>${i + 1}</td>
-                    <td><a href="#${type}">${type}</a></td>
+                    <td><a target="_blank" href="#${type}">${type}</a></td>
                     <td><a href="./LLM.html#${title}">${title}</a></td>
                     <td>${distance}</td>
-                    <td><span style="width: ${distance / 2 * 100}%;"></span></td>
+                    <td><div><span style="width: ${distance / 2 * 100}%;"></span></div></td>
                 `;
                 tbody.appendChild(row);
             }
@@ -127,7 +171,7 @@
         if (location.hash) {
             const hash = decodeURIComponent(location.hash.slice(1))
             input.value = hash
-            input.onchange()
+            search()
         }
 
 

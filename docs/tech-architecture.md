@@ -1,7 +1,7 @@
 # Technical Architecture
 
 ## Stack
-- Frontend: HTML, CSS, JS
+- Front end: HTML, CSS, JS
 - Backend: Node.js (native HTTP)
 - DB: MongoDB (metadata), Chroma (vectors)
 - LLM: Ollama/qwen3:8b via API
@@ -15,5 +15,5 @@
 
 ## Diagram
 ```
-[User] ⇄ [Frontend] ⇄ [Backend API] ⇄ [MongoDB | FAISS | LLM API]
+[User] ⇄ [Front end] ⇄ [Backend API] ⇄ [MongoDB | FAISS | LLM API]
 ```

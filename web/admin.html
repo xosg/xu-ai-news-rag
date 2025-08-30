@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>后台管理</title>
+
 </head>
 
 <style>
@@ -69,7 +70,6 @@
         padding: 6px 18px;
         font-size: 15px;
         cursor: pointer;
-        transition: background 0.2s;
     }
 
     button:hover {
@@ -99,16 +99,15 @@
     </table>
 
 
-    <script>
+    <script type="module">
 
-        const info = JSON.parse(localStorage.getItem('info'))
-        console.log(info)
-        Object.assign(window, info)
+        await import('./base.js')
+
+        console.log(window.coll)
 
         // embedding in batch
         const bulk = 12;
-
-
+        
         const swagger = `${chroma}/docs`;
         const initDB = `<button onclick="init_DB()">执行</button>`;
         document.querySelector('tbody').innerHTML = `
@@ -116,18 +115,34 @@
             <tr>   <td>MiniML</td> <td>${MiniML}</td>  </tr>
             <tr>   <td>LLM</td> <td>${LLM}</td>  </tr>
             <tr>   <td>Chroma API</td> <td> <a href="${swagger}">${swagger}</a></td>  </tr>
-            <tr>   <td>Tenant用户</td> <td>${tenant}</td>  </tr>
-            <tr>   <td>Database</td> <td>${database}</td>  </tr>
-            <tr>   <td>数据表</td> <td>${name}</td>  </tr>
-            <tr>   <td>数据表ID</td> <td>${id}</td>  </tr>
-            <tr>   <td>Vector维度</td> <td>${dimension}</td>  </tr>
+            <tr>   <td>Tenant用户</td> <td>${coll.tenant}</td>  </tr>
+            <tr>   <td>Database</td> <td>${coll.database}</td>  </tr>
+            <tr>   <td>数据表</td> <td>${coll.name}</td>  </tr>
+            <tr>   <td>数据表ID</td> <td>${coll.id}</td>  </tr>
+            <tr>   <td>Vector维度</td> <td>${coll.dimension}</td>  </tr>
             <tr>   <td>Rebuild数据库</td> <td>${initDB}</td>  </tr>
             <tr>   <td>Web</td> <td>${location.host}</td>  </tr>
             <tr>   <td>CSV源数据</td> <td><a href="./news.csv">./news.csv</a></td>  </tr>
-            <tr>   <td>总条目</td> <td>${rowsCount} 行</td>  </tr>
+            <tr>   <td>总条目</td> <td>${coll.rowsCount} 行</td>  </tr>
             <tr>   <td>批量执行</td> <td>${bulk} 行</td>  </tr>
         `
 
+
+        // async function embed(input) {
+        //     let vector = await fetch(`${ollama}/api/embed`, {
+        //         method: 'POST',
+        //         body: JSON.stringify({
+        //             model: MiniML,
+        //             input
+        //         }),
+        //         headers: {
+        //             'content-type': 'application/json'
+        //         }
+        //     })
+
+        //     vector = await vector.json()
+        //     return vector.embeddings;
+        // }
 
         async function init_DB() {
 
@@ -137,11 +152,26 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
+            }).catch(err => { })
+            if (del.ok) console.log('Collection "x.lab" deleted successfully')
+            else console.log(await del.text())
 
+            // get_or_create a collection
+            let collection = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    "configuration": null,
+                    "get_or_create": true,
+                    "metadata": null,
+                    "name": "x.lab"
+                }),
+                headers: {
+                    'content-type': 'application/json'
+                }
             })
-            if (del.ok) console.log('Collection deleted successfully')
-            else alert(await del.text())
 
+            collection = await collection.json()
+            const { id, name, database } = collection
 
 
             let csv = await fetch('news.csv')

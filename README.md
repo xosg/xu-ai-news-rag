@@ -13,8 +13,8 @@ ollama pull bge-m3
 # LLM 大模型
 ollama pull qwen3:8b
 
-# 设置环境变量，然后使用nVidia显卡启动
-docker run -d --gpus=all -e OLLAMA_ORIGINS="*" -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama 
+# 设置环境变量，然后使用nVidia显卡启动，设置长一点的KEEP_ALIVE
+docker run -d --gpus=all -e OLLAMA_ORIGINS="*" -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama -e OLLAMA_KEEP_ALIVE=24h
 
 ```
 
@@ -31,7 +31,7 @@ docker run --env=CHROMA_CORS_ALLOW_ORIGINS=["*"] -d ghcr.io/chroma-core/chroma:l
 ## 启动
 
 ```shell
-# 随便启动一个http服务器，托管./frontend里面的文件
+# 随便启动一个http服务器，托管 web/ 里面的文件
 node serve.js
 
 # 进入管理界面初始化，点击Rebuild数据库

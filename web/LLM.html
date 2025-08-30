@@ -5,26 +5,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新闻分析</title>
+
+    <script src="base.js" type="module"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f7f7f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background: #222;
+            padding: 12px 24px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 18px;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            color: #4fc3f7;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        pre {
+            text-wrap: auto;
+            font-family: cursive;
+            font-size: 1.4rem;
+            margin: 2vh 2vw;
+        }
+    </style>
 </head>
 
 <body>
     <nav>
         <a href="./index.html">📋首页</a>
-        <a href="./semantic.html">🔍语义搜索</a>
+        <a href="./semantic.html#小孩子">🔍语义搜索</a>
         <a href="#">🧠内容分析</a>
         <a href="./admin.html">⚙️系统</a>
     </nav>
 
     <h1></h1>
-    <pre style="text-wrap: auto;  font-family: cursive;  font-size: 1.4rem;">
+    <pre>
+        加载中······
     </pre>
 
     <script type="module">
 
         let pre = document.querySelector('pre')
-        const info = JSON.parse(localStorage.getItem('info'))
-        console.log(info)
-        Object.assign(window, info)
+
+
+        // const info = JSON.parse(localStorage.getItem('info'))
+        // console.log(info)
+        // Object.assign(window, info)
 
 
 
@@ -35,9 +76,10 @@
         const prompt =
             `根据以下内容，生成一篇文章:
             ${title}`
+
         const url = `${ollama}/api/generate`;
         const data = {
-            model: 'qwen3:8b', // Ensure this matches your model name
+            model: LLM, // Ensure this matches your model name
             prompt,
             stream: true, // Set to `true` for real-time streaming
             // Optional parameters (e.g., temperature, max_tokens):
@@ -60,12 +102,18 @@
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
 
+        pre.innerHTML = ''
+
         while (true) {
             const { done, value } = await reader.read();
             if (done) break;
-            const { response } =
-                JSON.parse(decoder.decode(value, { stream: true }));
-            pre.innerHTML += response
+            try {
+                const { response } =
+                    JSON.parse(decoder.decode(value, { stream: true }));
+                pre.innerHTML += response
+            } catch (error) {
+                console.error('Error parsing response:', error);
+            }
 
         }
 

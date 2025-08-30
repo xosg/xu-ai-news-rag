@@ -1,7 +1,7 @@
 # Outline Design Document
 
 ## System Architecture
-- Frontend: Native JS, interacts with backend via REST API
+- Web: Native JS, interacts with backend via REST API
 - Backend: Node.js, integrates MongoDB, FAISS, LangChain, LLM API
 - Database: MongoDB (metadata), FAISS (vectors)
 

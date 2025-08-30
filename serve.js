@@ -18,7 +18,7 @@ const path = require('path')
 const fs = require('fs').promises
 const server = http.createServer(async (req, res) => {
 
-  const filePath = path.join(__dirname, './frontend', req.url);
+  const filePath = path.join(__dirname, './web', req.url);
   const data = await fs.readFile(filePath).catch(err => err.message);
   const ext = path.extname(filePath).toLowerCase();
   const mime = mimes[ext] || 'application/octet-stream';
