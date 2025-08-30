@@ -11,14 +11,14 @@
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f7f7f9;
+            background: #ddd;
             margin: 0;
             padding: 0;
         }
 
         nav {
             background: #222;
-            padding: 12px 24px;
+            padding: 1.3vh 2.2vw;
         }
 
         nav a {
@@ -47,10 +47,10 @@
 
 <body>
     <nav>
-        <a href="./index.html">📋首页</a>
-        <a href="./semantic.html#小孩子">🔍语义搜索</a>
-        <a href="#">🧠内容分析</a>
-        <a href="./admin.html">⚙️系统</a>
+        <a href="./index.html">📋 首页</a>
+        <a href="./semantic.html#小孩子">🔍 语义搜索</a>
+        <a href="#">🧠 大作文</a>
+        <a href="./admin.html">⚙️ 系统</a>
     </nav>
 
     <h1></h1>
@@ -61,12 +61,6 @@
     <script type="module">
 
         let pre = document.querySelector('pre')
-
-
-        // const info = JSON.parse(localStorage.getItem('info'))
-        // console.log(info)
-        // Object.assign(window, info)
-
 
 
         const title = decodeURIComponent(location.hash.slice(1))

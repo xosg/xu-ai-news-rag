@@ -55,7 +55,7 @@ News-AI-RAG:  Personalized  News  Intelligent  Knowledge  Base
 
 ## AI prompts
 
-Generating more sample(fake) Chinese news into /news.csv , with 2 columns:
+Generating more sample(fake) Chinese news into web/news.csv , with 2 columns:
 
 - news category: the category name of this news in 2~3 chars, the total categories count shoule be around 20.
 - news title:
@@ -67,8 +67,8 @@ Generating more sample(fake) Chinese news into /news.csv , with 2 columns:
 examples:
 
 ```csv
-Category, hot index, title
-教育, 3984572, 年轻教师因开学产生焦虑
-教育, 10976262, 上海一小学今年仅招到22人
-职场, 98765677, 女孩上班不挣钱反欠公司13800元
+Category, title
+教育, 年轻教师因开学产生焦虑
+教育, 上海一小学今年仅招到20人
+职场, 女孩上班不挣钱反欠公司数万元
 ```

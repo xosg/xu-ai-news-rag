@@ -11,21 +11,20 @@
 <style>
     body {
         font-family: 'Segoe UI', Arial, sans-serif;
-        background: #f7f7f9;
+        background: #ddd;
         margin: 0;
         padding: 0;
     }
 
     nav {
         background: #222;
-        padding: 12px 24px;
+        padding: 1.3vh 2.2vw;
     }
 
     nav a {
         color: #fff;
         text-decoration: none;
-        margin-right: 18px;
-        font-size: 16px;
+        margin-right: 1.6rem;
     }
 
     nav a:hover {
@@ -80,10 +79,10 @@
 
 <body>
     <nav>
-        <a href="./index.html">📋首页</a>
-        <a href="./semantic.html#政治和军事">🔍语义搜索</a>
-        <!-- <a href="./LLM.html">内容分析</a> -->
-        <a href="./admin.html">⚙️系统</a>
+        <a href="./index.html">📋 首页</a>
+        <a href="./semantic.html#政治和军事">🔍 语义搜索</a>
+        <a href="./LLM.html#网络诈骗案件频发，市民财产安全受威胁">🧠 大作文</a>
+        <a href="./admin.html">⚙️ 系统</a>
     </nav>
 
 
@@ -107,42 +106,31 @@
 
         // embedding in batch
         const bulk = 12;
-        
+
         const swagger = `${chroma}/docs`;
         const initDB = `<button onclick="init_DB()">执行</button>`;
-        document.querySelector('tbody').innerHTML = `
-            <tr>   <td>Ollama</td> <td>${ollama}</td>  </tr>
-            <tr>   <td>MiniML</td> <td>${MiniML}</td>  </tr>
-            <tr>   <td>LLM</td> <td>${LLM}</td>  </tr>
-            <tr>   <td>Chroma API</td> <td> <a href="${swagger}">${swagger}</a></td>  </tr>
-            <tr>   <td>Tenant用户</td> <td>${coll.tenant}</td>  </tr>
-            <tr>   <td>Database</td> <td>${coll.database}</td>  </tr>
-            <tr>   <td>数据表</td> <td>${coll.name}</td>  </tr>
-            <tr>   <td>数据表ID</td> <td>${coll.id}</td>  </tr>
-            <tr>   <td>Vector维度</td> <td>${coll.dimension}</td>  </tr>
-            <tr>   <td>Rebuild数据库</td> <td>${initDB}</td>  </tr>
-            <tr>   <td>Web</td> <td>${location.host}</td>  </tr>
-            <tr>   <td>CSV源数据</td> <td><a href="./news.csv">./news.csv</a></td>  </tr>
-            <tr>   <td>总条目</td> <td>${coll.rowsCount} 行</td>  </tr>
-            <tr>   <td>批量执行</td> <td>${bulk} 行</td>  </tr>
-        `
+        const info = {
+            "Ollama": ollama,
+            "MiniML": MiniML,
+            "LLM": LLM,
+            "Chroma API": `<a href="${swagger}">${swagger}</a>`,
+            "Tenant用户": coll.tenant,
+            "Database": coll.database,
+            "数据表": coll.name,
+            "数据表ID": coll.id,
+            "Vector维度": coll.dimension,
+            "Rebuild数据库": initDB,
+            "Web": location.host,
+            "CSV源数据": `<a href="./news.csv">./news.csv</a>`,
+            "总条目": coll.rowsCount + ' 行',
+            "批量执行": bulk + ' 行'
+        }
 
+        document.querySelector('tbody').innerHTML =
+            Object.entries(info).map(([key, value]) => `
+                 <tr>  <td>${key}</td>  <td>${value}</td>  </tr>
+            `).join('')
 
-        // async function embed(input) {
-        //     let vector = await fetch(`${ollama}/api/embed`, {
-        //         method: 'POST',
-        //         body: JSON.stringify({
-        //             model: MiniML,
-        //             input
-        //         }),
-        //         headers: {
-        //             'content-type': 'application/json'
-        //         }
-        //     })
-
-        //     vector = await vector.json()
-        //     return vector.embeddings;
-        // }
 
         async function init_DB() {
 
@@ -215,6 +203,8 @@
             }
 
             console.log(csv.length + ' 条记录已插入')
+
+            alert('数据插入成功:' + csv.length)
         }
 
 
