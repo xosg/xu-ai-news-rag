@@ -57,7 +57,7 @@ News-AI-RAG:  Personalized  News  Intelligent  Knowledge  Base
 
 Generating more sample(fake) Chinese news into web/news.csv , with 2 columns:
 
-- news category: the category name of this news in 2~3 chars, the total categories count shoule be around 20.
+- news category: the category name of this news in 2~3 chars.
 - news title:
   - length should be diverse and be in the range of 15 to 40 chars.
   - topic should cover various aspects of the society.
