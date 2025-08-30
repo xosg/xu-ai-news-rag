@@ -10,17 +10,16 @@ const mimes = {
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.ico': 'image/x-icon',
-  '.csv': 'text/plain',
+  '.csv': 'text/plain; charset=utf-8',
 }
 
 const http = require('http')
-const path = require('path')
 const fs = require('fs').promises
 const server = http.createServer(async (req, res) => {
 
-  const filePath = path.join(__dirname, './web', req.url);
+  const filePath = __dirname + '/web' + req.url;
   const data = await fs.readFile(filePath).catch(err => err.message);
-  const ext = path.extname(filePath).toLowerCase();
+  const ext = req.url.slice(req.url.lastIndexOf('.')).toLowerCase();
   const mime = mimes[ext] || 'application/octet-stream';
   res.writeHead(200, { 'Content-Type': mime });
   res.end(data);

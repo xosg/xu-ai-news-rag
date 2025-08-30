@@ -7,21 +7,70 @@
   <title>新闻</title>
   <link rel="stylesheet" href="style.css">
 
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #ddd;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background: #222;
+      line-height: 3rem;
+      text-indent: 1.7rem;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-right: 1.6rem;
+    }
+
+    nav a:hover {
+      color: #4fc3f7;
+    }
+
+
+    table {
+      margin: auto;
+      background: #fff;
+      box-shadow: 0 2px 8px #00000057;
+      min-width: 26rem;
+      max-width: 90vw;
+      padding: 0.8rem;
+      border-radius: 0.7rem;
+    }
+
+    td:first-child {
+      font-family: fantasy;
+    }
+
+    th,
+    td {
+      padding: 0.6rem 1.4rem;
+      line-height: 1.3rem;
+    }
+  </style>
 </head>
 
 <body>
 
   <nav>
-    <a href="#">📋首页</a>
-    <a href="./semantic.html">🔍语义搜索</a>
-    <!-- <a href="./LLM.html">🧠内容分析</a> -->
-    <a href="./admin.html">⚙️系统</a>
+    <a>📋 新闻</a>
+    <a href="./semantic.html#时装">🔍 语义搜索</a>
+    <a href="./LLM.html">🧠 大作文</a>
+    <a href="./admin.html">⚙️ 系统</a>
   </nav>
 
+
+  <br>
+  <br>
 
   <table>
     <thead>
       <tr>
+        <th>ID</th>
         <th>分类</th>
         <th>热度</th>
         <th>新闻标题</th>
@@ -31,7 +80,14 @@
     </tbody>
   </table>
 
-  <button id="next">换一批</button>
+  <br>
+
+  <div style="text-align: center;">
+    <button onclick="offset = 0; paginate()">首页</button>
+    <button onclick="offset -= limit; paginate()">上一页</button>
+    <button onclick="offset += limit; paginate()">下一页</button>
+    <button onclick="offset = -1; paginate()">尾页</button>
+  </div>
 
 
   <script type="module">
@@ -77,19 +133,21 @@
     }
     console.log(info)
 
-    // localStorage.setItem('info', JSON.stringify(info))
 
 
+    let rem = +getComputedStyle(document.documentElement).fontSize.slice(0, -2)
+    let lineHeight = rem * 2.5;
+    window.limit =
+      ~~((innerHeight - rem * 17) / lineHeight)
+    let page = +location.hash.slice(1) || 0;
+    window.offset = page * limit;
 
-    let limit = 13;
-    let offset = 0;
+    window.paginate = async function () {
+      if (offset >= coll.rowsCount) offset = 0;
+      else if (offset < 0) offset = coll.rowsCount - limit
 
-    const next = document.querySelector('#next')
-    next.addEventListener('click', async () => {
-      offset += limit;
-      if (offset > coll.rowsCount - limit) offset = 0;
-
-      let records = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/${coll.id}/get`, {
+      let records = await fetch(
+        `${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/${coll.id}/get`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -100,21 +158,23 @@
       let { documents, ids, metadatas } = await records.json();
       const tbody = document.querySelector('#records')
       tbody.innerHTML = ''
-      for (let i = 0; i < limit; i++) {
+      for (let i = 0; i < ids.length; i++) {
         const row = document.createElement('tr');
         const type = metadatas[i].category
         let title = documents[i]
         title = `<a href="./LLM.html#${title}">${title}</a>`
         row.innerHTML = `
-      <td><a href="./semantic.html#${type}">${type}</a></td>
-      <td>${~~(Math.random() * 999999) + 999}</td>
-      <td>${title}</td>
-    `;
+          <td>${ids[i]}</td>
+          <td><a href="./semantic.html#${type}">${type}</a></td>
+          <td>${~~(Math.random() * 999999) + 999}</td>
+          <td>${title}</td>
+        `;
         tbody.appendChild(row);
       }
-    })
 
-    next.click();
+    }
+
+    paginate();
 
 
   </script>
