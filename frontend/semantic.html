@@ -24,7 +24,7 @@
 
     <nav>
         <a href="./index.html">📋首页</a>
-        <a href="./semantic.html">🔍语义搜索</a>
+        <a href="#">🔍语义搜索</a>
         <!-- <a href="./LLM.html">🧠内容分析</a> -->
         <a href="./admin.html">⚙️系统</a>
     </nav>
@@ -53,13 +53,10 @@
 
 
 
-    <script>
+    <script type="module">
         const info = JSON.parse(localStorage.getItem('info'))
         console.log(info)
         Object.assign(window, info)
-
-
-
 
 
 

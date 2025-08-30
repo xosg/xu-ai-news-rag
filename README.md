@@ -34,5 +34,6 @@ docker run --env=CHROMA_CORS_ALLOW_ORIGINS=["*"] -d ghcr.io/chroma-core/chroma:l
 # 随便启动一个http服务器，托管./frontend里面的文件
 node serve.js
 
-
+# 进入管理界面初始化，点击Rebuild数据库
+open http://localhost:{port}/admin.html
 ```

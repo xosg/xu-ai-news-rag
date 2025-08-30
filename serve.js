@@ -1,6 +1,5 @@
-const http = require('http')
-const path = require('path')
-const fs = require('fs').promises
+// 静态http文件服务
+
 
 
 const mimes = {
@@ -14,8 +13,10 @@ const mimes = {
   '.csv': 'text/plain',
 }
 
+const http = require('http')
+const path = require('path')
+const fs = require('fs').promises
 const server = http.createServer(async (req, res) => {
-
 
   const filePath = path.join(__dirname, './frontend', req.url);
   const data = await fs.readFile(filePath).catch(err => err.message);
@@ -23,8 +24,6 @@ const server = http.createServer(async (req, res) => {
   const mime = mimes[ext] || 'application/octet-stream';
   res.writeHead(200, { 'Content-Type': mime });
   res.end(data);
-
-
 
 });
 
