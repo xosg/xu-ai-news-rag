@@ -33,7 +33,7 @@
 
     table {
         border-collapse: collapse;
-        margin: 32px auto 0 auto;
+        margin: auto;
         background: #fff;
         box-shadow: 0 2px 8px #00000057;
         min-width: 420px;
@@ -57,17 +57,12 @@
         font-weight: 600;
     }
 
-    tr:last-child td {
-        border-bottom: none;
-    }
-
     button {
         background: #4fc3f7;
         color: #fff;
-        border: none;
         border-radius: 4px;
-        padding: 6px 18px;
-        font-size: 15px;
+        padding: 0.3rem 1rem;
+        font-size: 1rem;
         cursor: pointer;
     }
 
@@ -79,12 +74,15 @@
 
 <body>
     <nav>
-        <a href="./index.html">📋 首页</a>
+        <a href="./index.html">📋 新闻</a>
         <a href="./semantic.html#政治和军事">🔍 语义搜索</a>
         <a href="./LLM.html#网络诈骗案件频发，市民财产安全受威胁">🧠 大作文</a>
         <a href="./admin.html">⚙️ 系统</a>
     </nav>
 
+
+    <br>
+    <br>
 
     <table>
         <!-- <thead>
@@ -108,7 +106,7 @@
         const bulk = 12;
 
         const swagger = `${chroma}/docs`;
-        const initDB = `<button onclick="init_DB()">执行</button>`;
+        const initDB = `<button onclick="init_DB()">执 行</button>`;
         const info = {
             "Ollama": ollama,
             "MiniML": MiniML,
@@ -117,10 +115,11 @@
             "Tenant用户": coll.tenant,
             "Database": coll.database,
             "数据表": coll.name,
-            "数据表ID": coll.id,
+            "数据表 ID": coll.id,
             "Vector维度": coll.dimension,
             "Rebuild数据库": initDB,
             "Web": location.host,
+            "源代码": 'https://github.com/xosg/xu-ai-news-rag',
             "CSV源数据": `<a href="./news.csv">./news.csv</a>`,
             "总条目": coll.rowsCount + ' 行',
             "批量执行": bulk + ' 行'
