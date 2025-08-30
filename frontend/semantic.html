@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语义检索</title>
+</head>
+
+<body>
+
+
+    <input type="text" id="search" placeholder="语义搜索">
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>分类</th>
+                <th>新闻内容</th>
+                <th>余弦距离</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+
+
+    <script>
+        const info = JSON.parse(localStorage.getItem('info'))
+        console.log(info)
+        Object.assign(window, info)
+
+
+
+
+
+
+
+
+        async function embed(input) {
+            let vector = await fetch(`${ollama}/api/embed`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    model: MiniML,
+                    // input: text or list of text to generate embeddings for
+                    input
+                }),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+
+            vector = await vector.json()
+            return vector.embeddings;
+
+        }
+
+
+        const input = document.querySelector('input')
+
+        input.onchange = async () => {
+            const prompt = input.value;
+            // console.log(111,prompt)
+            let [vector] = await embed([prompt]);
+            // console.log(vector.slice(0, 5))
+
+
+            let results = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/${id}/query`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query_embeddings: [vector],
+                    n_results: 5,
+                    include: ['documents', 'metadatas', 'uris', 'distances']
+                })
+            })
+
+            const { documents, ids, metadatas, distances } = await results.json();
+            console.log(documents[0], distances[0]);
+            // return
+
+            const tbody = document.querySelector('tbody')
+            tbody.innerHTML = ''
+            for (let i = 0; i < documents[0].length; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${metadatas[0][i].category}</td>
+                    <td>${documents[0][i]}</td>
+                    <td>${distances[0][i]}</td>
+                `;
+                tbody.appendChild(row);
+            }
+        }
+
+        if (location.hash) {
+            const hash = decodeURIComponent(location.hash.slice(1))
+            input.value = hash
+            input.onchange()
+        }
+
+
+    </script>
+</body>
+
+</html>

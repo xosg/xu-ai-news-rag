@@ -60,9 +60,12 @@ const info = {
   ...collection,
   chroma,
   ollama,
-  rowsCount
+  rowsCount,
+  MiniML
 }
 console.log(info)
+
+localStorage.setItem('info', JSON.stringify(info))
 
 
 
@@ -95,8 +98,9 @@ next.addEventListener('click', async () => {
   tbody.innerHTML = ''
   for (let i = 0; i < limit; i++) {
     const row = document.createElement('tr');
+    const type = metadatas[i].category
     row.innerHTML = `
-      <td>${metadatas[i].category}</td>
+      <td><a href="./semantic.html#${type}">${type}</a></td>
       <td>${~~(Math.random() * 999999) + 999}</td>
       <td>${documents[i]}</td>
     `;
@@ -163,42 +167,6 @@ document.querySelector('#import').addEventListener('click', async () => {
 
 
 
-const input = document.querySelector('#search');
-input.addEventListener('change', async () => {
-  const prompt = input.value;
-  // console.log(111,prompt)
-  let [vector] = await embed([prompt]);
-  // console.log(vector.slice(0, 5))
-
-
-  let results = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/${id}/query`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      query_embeddings: [vector],
-      n_results: 5,
-      include: ['documents', 'metadatas', 'uris', 'distances']
-    })
-  })
-
-  const { documents, ids, metadatas, distances } = await results.json();
-  console.log(documents[0], distances[0]);
-  // return
-
-  const tbody = document.querySelector('#records')
-  tbody.innerHTML = ''
-  for (let i = 0; i < documents[0].length; i++) {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${metadatas[0][i].category}</td>
-      <td>${distances[0][i]}</td>
-      <td>${documents[0][i]}</td>
-    `;
-    tbody.appendChild(row);
-  }
-})
 
 
 async function embed(input) {
