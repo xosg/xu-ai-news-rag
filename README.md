@@ -1,10 +1,21 @@
 # 新闻 AI 引擎
 
+## Docker 安装
+
+```shell
+# 使用Windows包管理器下载，或者走官网：
+# https://www.docker.com/products/docker-desktop/
+winget install Docker.DockerDesktop
+
+# 检查 Docker 版本
+docker --version
+```
+
 ## Ollama 安装
 
 ```shell
-
-# 下载ollama，或者从官网: https://ollama.com/download/windows
+# 下载ollama，或者从官网: 
+# https://ollama.com/download/windows
 winget install Ollama.Ollama
 
 # 嵌入式模型
@@ -21,7 +32,7 @@ docker run -d --gpus=all -e OLLAMA_ORIGINS="*" -v ollama:/root/.ollama -p 11434:
 ## Chroma安装
 
 ```shell
-# Windows64需要docker启动
+# Windows64需要docker启动，或者WSL系统
 
 # 设置环境变量，然后启动
 docker run --env=CHROMA_CORS_ALLOW_ORIGINS=["*"] -d ghcr.io/chroma-core/chroma:latest -p 8000:8000 -v chroma_data:/chroma/chroma --name chroma chromadb/chroma
@@ -36,6 +47,8 @@ node serve.js
 
 # 进入管理界面初始化，点击Rebuild数据库
 open http://localhost:{port}/admin.html
+
+# 如需修改端口等参数，请在 web/base.js 开头修改
 ```
 
 ## MIT LICENSE

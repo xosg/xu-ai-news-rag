@@ -5,7 +5,7 @@ window.MiniML = 'bge-m3'
 window.LLM = 'qwen3:8b'
 
 
-
+// 文本转向量
 window.embed = async function (input) {
     let vector = await fetch(`${ollama}/api/embed`, {
         method: 'POST',
@@ -41,7 +41,12 @@ let collection = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/
     headers: {
         'content-type': 'application/json'
     }
+}).catch(err => {
+    alert('Chroma请求失败 ' + err.message)
+    console.error(err)
 })
+
+// if (!collection.ok) return;
 
 window.coll = await collection.json()
 
@@ -50,4 +55,12 @@ window.coll = await collection.json()
 let rowsCount = await fetch(`${chroma}/api/v2/tenants/default_tenant/databases/default_database/collections/${coll.id}/count`,)
 coll.rowsCount = await rowsCount.json()
 
+if (coll.rowsCount === 0) {
+    if (location.pathname.includes('admin.html')) {
+
+    } else {
+        alert('检测到数据表为空，正在引导您嵌入数据库。')
+        open('admin.html','_self')
+    }
+}
 

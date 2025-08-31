@@ -203,6 +203,12 @@
         }
 
 
+        if (coll.rowsCount === 0) {
+            alert('Chroma无内容，正在为您初始化。')
+            await buildDB()
+        }
+
+
 
     </script>
 </body>
