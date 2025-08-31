@@ -1,7 +1,7 @@
 window.chroma = 'http://localhost:8000'
 window.ollama = 'http://localhost:11434'
 
-window.MiniML = 'bge-m3'
+window.MiniLM = 'bge-m3'
 window.LLM = 'qwen3:8b'
 
 
@@ -10,7 +10,7 @@ window.embed = async function (input) {
     let vector = await fetch(`${ollama}/api/embed`, {
         method: 'POST',
         body: JSON.stringify({
-            model: MiniML,
+            model: MiniLM,
             // input: text or list of text to generate embeddings for
             input
         }),

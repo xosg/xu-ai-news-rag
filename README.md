@@ -51,7 +51,7 @@ open http://localhost:{port}/admin.html
 # 如需修改端口等参数，请在 web/base.js 开头修改
 ```
 
-## MIT LICENSE
+## MIT License
 
 Copyright (c) 2025 JinHengyu
 
