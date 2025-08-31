@@ -38,7 +38,7 @@
       box-shadow: 0 2px 8px #00000057;
       min-width: 26rem;
       max-width: 90vw;
-      padding: 0.8rem;
+      padding: 0.8rem 1vw;
       border-radius: 0.7rem;
     }
 
@@ -48,7 +48,7 @@
 
     th,
     td {
-      padding: 0.6rem 1.4rem;
+      padding: 0.6rem 1.4vw;
       line-height: 1.3rem;
     }
   </style>
@@ -94,6 +94,7 @@
     <button onclick="offset = -1; paginate()">尾页</button>
   </div>
 
+  <br>
 
   <script type="module">
 
@@ -141,9 +142,13 @@
 
 
     let rem = +getComputedStyle(document.documentElement).fontSize.slice(0, -2)
+    // 表格行
     let lineHeight = rem * 2.5;
     window.limit =
       ~~((innerHeight - rem * 17) / lineHeight)
+
+    // if (innerWidth < innerHeight) limit -= 3;
+
     let page = +location.hash.slice(1) || 0;
     window.offset = page * limit;
 
@@ -171,7 +176,7 @@
         row.innerHTML = `
           <td>${ids[i]}</td>
           <td><a href="./semantic.html#${type}">${type}</a></td>
-          <td>${~~(Math.random() * 999999) + 999}</td>
+          <td>${~~(Math.random() * 99999) + 999}</td>
           <td>${title}</td>
         `;
         tbody.appendChild(row);
