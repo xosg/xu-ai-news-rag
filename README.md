@@ -18,7 +18,7 @@ docker --version
 # https://ollama.com/download/windows
 winget install Ollama.Ollama
 
-# 嵌入式模型
+# 嵌入式模型选择bge-m3，支持多种自然语言
 ollama pull bge-m3
 
 # LLM 大模型

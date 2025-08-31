@@ -39,15 +39,15 @@
 
 ### admin.html
 
-- 展示系统参数、数据库信息、数据表等。
+- 展示系统参数：vector数据库信息、ollama语言模型、web资源等。
 - 支持一键重建数据库、批量导入 CSV 数据。
-- 便于开发者或管理员维护系统。
+- 便于开发者或管理员维护系统、监控数据。
 
 ## 使用说明
 
 - 需要先启动后端服务与向量数据库（如 Chroma），确保 API 可用。详情参考../README.md
 - 使用任意的web静态文件服务器来host这些前端文件。
-- 推荐使用现代浏览器（Chrome/Edge/Firefox）。直接用浏览器打开 `index.html` 或 `semantic.html` 进行体验。
+- 推荐使用现代浏览器（Chrome/Edge/Firefox）。直接用浏览器打开 `index.html` 进行体验。
 - 管理员可通过 `admin.html` 进行数据管理与系统维护。
 
 ## 联系与反馈

@@ -173,6 +173,7 @@
         const type = metadatas[i].category
         let title = documents[i]
         title = `<a href="./LLM.html#${title}">${title}</a>`
+        // 暂时先弄个随机数
         row.innerHTML = `
           <td>${ids[i]}</td>
           <td><a href="./semantic.html#${type}">${type}</a></td>

@@ -72,3 +72,59 @@ Category, title
 教育, 上海一小学今年仅招到20人
 职场, 女孩上班不挣钱反欠公司数万元
 ```
+
+## Cosine similarity algorithm
+
+```js
+function cosineSimilarity(vecA, vecB) {
+    const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
+    const magA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+    const magB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+
+    // return 0~1, the larger the similar
+    return dotProduct / (magA * magB);
+}
+```
+
+## multilingual testing dataset
+
+```js
+// similar meanings
+[
+    {
+        a: "The cat sat on the mat",
+        b: "that kitty is sitting on a carpet",
+    },
+    {
+        a: "The weather is very nice today",
+        b: "oh, the sky today is quite good",
+    }, {
+        a: '你好，很高兴认识你',
+        b: '您好！能够结识您我非常开心'
+    }, {
+        a: '今天天气不错',
+        b: '现在的天气情况很好'
+    }, {
+        a: 'where are you coming from?',
+        b: '你来自哪里？'
+    }, {
+        a: '我来自中国。',
+        b: 'I come from China.'
+    }
+
+];
+
+//   different meanings
+[
+    {
+        a: "The cat sat on the mat",
+        b: "how are you today? i'm fine thanks",
+    }, {
+        a: '你在说什么，我听不懂',
+        b: '今天天气很差'
+    }, {
+        a: '我来自新加坡。',
+        b: 'what is your name?'
+    }
+]
+```
