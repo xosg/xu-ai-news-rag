@@ -32,7 +32,8 @@
             color: #4fc3f7;
         }
 
-        h1 {
+        h1,
+        h4 {
             text-align: center;
         }
 
@@ -54,6 +55,7 @@
     </nav>
 
     <h1></h1>
+    <h4></h4>
     <pre>
         加载中······
     </pre>
@@ -66,6 +68,7 @@
         const title = decodeURIComponent(location.hash.slice(1))
         document.title = title
         document.querySelector('h1').textContent = title
+        document.querySelector('h4').textContent = '作者：' + LLM
 
         const prompt =
             `根据以下内容，生成一篇文章:
@@ -98,26 +101,21 @@
 
         pre.innerHTML = ''
 
+        let json = null
         while (true) {
             const { done, value } = await reader.read();
             if (done) break;
             try {
-                const { response } =
-                    JSON.parse(decoder.decode(value, { stream: true }));
-                pre.innerHTML += response
+                json = JSON.parse(decoder.decode(value, { stream: true }));
+                pre.innerHTML += json.response;
             } catch (error) {
                 console.error('Error parsing response:', error);
             }
-
         }
 
-
-        // let result = (await response.json()).response;
+        console.log(json)
 
         // result = result.slice(result.lastIndexOf('\n') + 1).trim();
-
-
-        ;
 
 
     </script>
