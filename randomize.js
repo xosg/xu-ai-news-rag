@@ -1,4 +1,4 @@
-async function run(params) {
+async function run() {
     const fs = require('fs').promises
 
     csv = await fs.readFile('./web/news.csv', 'utf8')
